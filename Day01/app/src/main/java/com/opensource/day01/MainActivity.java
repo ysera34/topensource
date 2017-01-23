@@ -20,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
         final Fragment1 fragment1 = new Fragment1();
         final Fragment2 fragment2 = new Fragment2();
 
-
         Button button1 = (Button) findViewById(R.id.button1);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
