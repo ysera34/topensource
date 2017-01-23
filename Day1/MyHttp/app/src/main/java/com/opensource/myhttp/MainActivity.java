@@ -11,6 +11,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,7 +43,9 @@ public class MainActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+
                         println(response);
+                        processResponse(response);
                     }
                 },
                 new Response.ErrorListener() {
@@ -59,5 +62,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void println(String data) {
         mTextView.append(data + "\n");
+    }
+
+    private void processResponse(String data) {
+        Gson gson = new Gson();
+        Person person = gson.fromJson(data, Person.class);
+//        println(person.getName());
+//        println(String.valueOf(person.getAge()));
+//        println(person.getMobile());
+        println(person.name);
+        println(String.valueOf(person.age));
+        println(person.mobile);
     }
 }
