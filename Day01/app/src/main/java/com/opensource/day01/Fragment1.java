@@ -1,5 +1,6 @@
 package com.opensource.day01;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,10 @@ import android.widget.Button;
  */
 
 public class Fragment1 extends Fragment {
+
+    public static interface OnChangeFragmentListener {
+        void onChangeFragment(int position);
+    }
 
     public static Fragment1 newInstance() {
 
@@ -35,9 +40,27 @@ public class Fragment1 extends Fragment {
 //                getActivity().getSupportFragmentManager().beginTransaction()
 //                        .replace(R.id.fragment_container, Fragment2.newInstance())
 //                        .commit();
-                ((MainActivity) getActivity()).onChangeFragment(0);
+
+//                ((MainActivity) getActivity()).onChangeFragment(0);
+                if (listener != null) {
+                    listener.onChangeFragment(0);
+                }
             }
         });
         return rootView;
+    }
+
+    OnChangeFragmentListener listener;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        listener = (OnChangeFragmentListener) getActivity();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
     }
 }
