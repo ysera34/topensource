@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, fragment1)
+                        .replace(R.id.fragment_container, Fragment1.newInstance())
                         .commit();
             }
         });
@@ -34,10 +34,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, fragment2)
+                        .replace(R.id.fragment_container, Fragment2.newInstance())
                         .commit();
             }
         });
+    }
 
+    public void onChangeFragment(int position) {
+        if (position == 0) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, Fragment1.newInstance())
+                    .commit();
+        } else {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, Fragment2.newInstance())
+                    .commit();
+        }
     }
 }

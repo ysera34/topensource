@@ -32,9 +32,10 @@ public class Fragment2 extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, Fragment1.newInstance())
-                        .commit();
+//                getActivity().getSupportFragmentManager().beginTransaction()
+//                        .replace(R.id.fragment_container, Fragment1.newInstance())
+//                        .commit();
+                ((MainActivity) getActivity()).onChangeFragment(1);
             }
         });
         return rootView;
