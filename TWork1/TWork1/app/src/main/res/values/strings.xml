@@ -5,4 +5,8 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+
+    <string name="format_list_sum">총 %s건</string>
+    <string name="format_guest_count">고객수 %s명</string>
+    <string name="format_amount_sales">%s만원</string>
 </resources>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.github.lzyzsd.circleprogress.DonutProgress
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="50dp"
+            app:donut_max="100"
+            app:donut_progress="74"/>
+
+        <com.github.lzyzsd.circleprogress.ArcProgress
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="50dp"
+            app:arc_max="100"
+            app:arc_progress="84"
+            app:arc_suffix_text="%"
+            app:arc_bottom_text="운동량"
+            app:arc_bottom_text_size="20dp"
+            app:arc_finished_color="@color/colorAccent"
+            app:arc_unfinished_color="#ccccee"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.triggertrap.seekarc.SeekArc
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:padding="30dp"
+            app:rotation="180"
+            app:startAngle="30"
+            app:sweepAngle="300"
+            app:touchInside="true"
+            app:max="100"
+            app:progress="74"/>
+
+    </LinearLayout>
+
+</LinearLayout>
