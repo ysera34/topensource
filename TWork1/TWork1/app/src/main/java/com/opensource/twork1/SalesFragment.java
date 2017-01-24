@@ -1,8 +1,11 @@
 package com.opensource.twork1;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -20,6 +24,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import org.json.JSONObject;
 
@@ -29,7 +36,8 @@ import java.util.ArrayList;
  * Created by yoon on 2017. 1. 23..
  */
 
-public class SalesFragment extends Fragment {
+public class SalesFragment extends Fragment
+        implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener{
 
     private static final String URL = "http://192.168.211.170:3000";
 
@@ -49,6 +57,7 @@ public class SalesFragment extends Fragment {
     private RecyclerView mSalesRecyclerView;
     private SalesAdapter mSalesAdapter;
     private ArrayList<Sales> mSalesArrayList;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,8 +75,14 @@ public class SalesFragment extends Fragment {
         mUrlEditText = (EditText) view.findViewById(R.id.url_edit_text);
         mUrlEditText.setText(URL);
         mUrlRequestButton = (Button) view.findViewById(R.id.url_request_button);
+        mUrlRequestButton.setOnClickListener(this);
         mSalesRecyclerView = (RecyclerView) view.findViewById(R.id.sales_recycler_view);
         mSalesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
+        mSwipeRefreshLayout.setColorSchemeResources(
+                R.color.colorPrimary, R.color.colorPrimaryDark);
+
+        mSwipeRefreshLayout.setOnRefreshListener(this);
 
         updateUI();
 
@@ -77,7 +92,6 @@ public class SalesFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        requestSales();
     }
 
     private void updateUI() {
@@ -88,6 +102,33 @@ public class SalesFragment extends Fragment {
             mSalesAdapter.setSalesArrayList(mSalesArrayList);
             mSalesAdapter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.url_request_button:
+                requestSales();
+                break;
+        }
+    }
+
+    Handler mHandler = new Handler();
+
+    @Override
+    public void onRefresh() {
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        }, 1000);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
     }
 
     private class SalesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -167,6 +208,7 @@ public class SalesFragment extends Fragment {
 
         private Sales mSales;
 
+        private ImageView mImageView;
         private TextView mMonthTextView;
         private TextView mGuestCountTextView;
         private TextView mAmountSalesTextView;
@@ -174,6 +216,7 @@ public class SalesFragment extends Fragment {
         public SalesHolder(View itemView) {
             super(itemView);
 
+            mImageView = (ImageView) itemView.findViewById(R.id.image_view);
             mMonthTextView = (TextView) itemView.findViewById(R.id.month_text_view);
             mGuestCountTextView = (TextView) itemView.findViewById(R.id.guest_count_text_view);
             mAmountSalesTextView = (TextView) itemView.findViewById(R.id.amount_sales_text_view);
@@ -182,6 +225,28 @@ public class SalesFragment extends Fragment {
         public void bindSales(Sales sales) {
             mSales = sales;
 
+            ImageLoader.getInstance().displayImage(mSales.url, mImageView,
+                    new ImageLoadingListener() {
+                        @Override
+                        public void onLoadingStarted(String imageUri, View view) {
+
+                        }
+
+                        @Override
+                        public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+
+                        }
+
+                        @Override
+                        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+
+                        }
+
+                        @Override
+                        public void onLoadingCancelled(String imageUri, View view) {
+
+                        }
+                    });
             mMonthTextView.setText(String.valueOf(mSales.month));
             mGuestCountTextView.setText(
                     getString(R.string.format_guest_count, String.valueOf(mSales.count)));

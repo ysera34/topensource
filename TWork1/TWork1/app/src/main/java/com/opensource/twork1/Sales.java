@@ -9,5 +9,6 @@ class Sales {
     String month;
     int count;
     int sales;
+    String url;
 
 }
