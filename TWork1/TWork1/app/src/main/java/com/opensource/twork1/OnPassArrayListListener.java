@@ -6,7 +6,8 @@ import java.util.ArrayList;
  * Created by yoon on 2017. 1. 24..
  */
 
-public class SalesList {
+public interface OnPassArrayListListener {
 
-    ArrayList<Sales> data = new ArrayList<>();
+    void onPassArrayList(ArrayList<Sales> salesArrayList);
+
 }

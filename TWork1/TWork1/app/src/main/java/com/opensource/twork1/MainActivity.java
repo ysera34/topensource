@@ -17,7 +17,9 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, OnPassArrayListListener {
+
+    public static final String EXTRA_SALES = "sales";
 
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
@@ -145,5 +147,10 @@ public class MainActivity extends AppCompatActivity
     private void addFragments(Fragment fragment, String title) {
         mFragments.add(fragment);
         mFragmentTitles.add(title);
+    }
+
+    @Override
+    public void onPassArrayList(ArrayList<Sales> salesArrayList) {
+
     }
 }

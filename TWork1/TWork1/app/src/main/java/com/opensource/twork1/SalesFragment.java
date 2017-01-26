@@ -1,5 +1,6 @@
 package com.opensource.twork1;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
@@ -32,6 +33,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import static com.opensource.twork1.MainActivity.EXTRA_SALES;
+
 /**
  * Created by yoon on 2017. 1. 23..
  */
@@ -39,7 +42,8 @@ import java.util.ArrayList;
 public class SalesFragment extends Fragment
         implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener{
 
-    private static final String URL = "http://192.168.211.170:3000";
+//    private static final String URL = "http://192.168.211.170:3000";
+    private static final String URL = "http://192.168.43.186:3000";
 
     public static SalesFragment newInstance() {
 
@@ -128,7 +132,7 @@ public class SalesFragment extends Fragment
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
+        outState.putSerializable(EXTRA_SALES, mSalesArrayList);
     }
 
     private class SalesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -293,11 +297,21 @@ public class SalesFragment extends Fragment
 
         for (int i = 0; i < list.data.size(); i++) {
             Sales sales = list.data.get(i);
-
             salesArrayList.add(sales);
         }
-
         return salesArrayList;
     }
 
+    OnPassArrayListListener mOnPassArrayListListener;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mOnPassArrayListListener = (OnPassArrayListListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnPassArrayListListener");
+        }
+    }
 }
